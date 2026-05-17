@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WhisperTour｜P104 Smart Tour Audio System</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="brandmark">WT</div>
+      <div>
+        <h1>WhisperTour</h1>
+        <p>P104 Smart Tour Audio System</p>
+      </div>
+    </section>
+
+    <section id="setupCard" class="card">
+      <h2>加入導覽</h2>
+      <label>導覽房間碼</label>
+      <div class="row">
+        <input id="roomInput" value="whispertour-test" placeholder="例如 whispertour-test" />
+        <button id="randomRoomBtn" class="secondary">產生</button>
+      </div>
+
+      <label>顯示名稱</label>
+      <input id="nameInput" placeholder="例如 guide 或 visitor1" />
+
+      <div class="roleGrid">
+        <button id="guideBtn" class="primary">我是導遊</button>
+        <button id="listenerBtn" class="secondary">我是遊客</button>
+      </div>
+
+      <p class="hint">導遊可開麥克風；遊客只收聽，不會要求麥克風權限。</p>
+    </section>
+
+    <section id="tourCard" class="card hidden">
+      <div class="tourTop">
+        <div>
+          <h2 id="tourTitle">導覽中</h2>
+          <p id="roleLabel" class="muted"></p>
+        </div>
+        <span id="statusBadge" class="badge">連線中</span>
+      </div>
+
+      <div class="roomBox">
+        <span>Room</span>
+        <strong id="roomLabel"></strong>
+      </div>
+
+      <div id="guidePanel" class="panel hidden">
+        <h3>導遊控制台</h3>
+        <p>請使用耳機測試，避免回音。遊客掃描下方 QR Code 即可加入。</p>
+        <canvas id="qrCanvas"></canvas>
+        <button id="muteBtn" class="secondary">暫停麥克風</button>
+      </div>
+
+      <div id="listenerPanel" class="panel hidden">
+        <h3>正在收聽導覽</h3>
+        <p>請戴上耳機。若沒有聲音，請確認手機音量與瀏覽器播放權限。</p>
+        <button id="startAudioBtn" class="primary hidden">開始播放聲音</button>
+      </div>
+
+      <div class="stats">
+        <div><span>目前人數</span><strong id="participantCount">1</strong></div>
+        <div><span>音訊狀態</span><strong id="audioStatus">等待中</strong></div>
+      </div>
+
+      <button id="leaveBtn" class="danger">離開導覽</button>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
