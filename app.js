@@ -5,7 +5,7 @@ function showDebug(o){debugEl.textContent=typeof o==="string"?o:JSON.stringify(o
 function roomCode(){return Math.floor(1000+Math.random()*9000).toString()}
 function buildJoinUrl(room){const u=new URL(window.location.href);u.searchParams.set("room",room);u.searchParams.set("role","listener");return u.toString()}
 function updateListenerCount(){if(!livekitRoom||currentRole!=="guide")return;let c=0;livekitRoom.remoteParticipants.forEach(()=>c++);listenerCountEl.textContent=String(c)}
-function showGuideQr(room){const url=buildJoinUrl(room);document.getElementById("joinUrlText").textContent=url;QRCode.toCanvas(document.getElementById("qrCanvas"),url,{width:132,margin:1})}
+function showGuideQr(room){const url=buildJoinUrl(room);document.getElementById("joinUrlText").textContent=url;document.getElementById("qrImage").src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data="+encodeURIComponent(url)}
 function applyUrlParams(){const p=new URLSearchParams(window.location.search);const room=p.get("room"),role=p.get("role");if(room&&/^[0-9]{4}$/.test(room))document.getElementById("room").value=room;if(role==="listener"){currentRole="listener";document.querySelectorAll(".mode").forEach(b=>b.classList.remove("active"));document.querySelector('.mode[data-role="listener"]').classList.add("active")}}
 document.querySelectorAll(".mode").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".mode").forEach(b=>b.classList.remove("active"));btn.classList.add("active");currentRole=btn.dataset.role}));
 document.getElementById("generateRoom").addEventListener("click",()=>{document.getElementById("room").value=roomCode()});
