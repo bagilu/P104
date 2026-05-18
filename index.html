@@ -5,12 +5,14 @@
 <title>WhisperTour｜P104</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script src="config.js"></script>
 </head>
 <body>
 <main class="shell">
-<section class="hero"><div class="brand-mark">WT</div><div><h1>WhisperTour</h1><p>P104 Smart Tour Audio System</p></div></section>
+<section class="hero">
+<div class="brand-mark">WT</div>
+<div><h1>WhisperTour</h1><p>P104 Smart Tour Audio System</p><p class="project-title">慈濟大學 <span>經營管理學系</span> 學生專題</p></div>
+</section>
 <section class="panel">
 <div class="mode-tabs"><button class="mode active" data-role="guide">我是導遊</button><button class="mode" data-role="listener">我是遊客</button></div>
 <div class="form-grid">
@@ -20,7 +22,7 @@
 </div>
 <div id="guideTools" class="guide-tools hidden">
 <div class="stat-card"><span>目前收聽人數</span><strong id="listenerCount">0</strong></div>
-<div class="qr-box"><div><h2>遊客掃碼加入</h2><p id="joinUrlText">尚未建立連結</p></div><canvas id="qrCanvas"></canvas></div>
+<div class="qr-box"><div><h2>遊客掃碼加入</h2><p id="joinUrlText">尚未建立連結</p></div><img id="qrImage" alt="QRCode"></div>
 </div>
 <div id="connectedTools" class="connected-tools hidden">
 <button id="muteBtn" class="secondary" type="button">導遊靜音</button>

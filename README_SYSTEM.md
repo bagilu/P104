@@ -1,14 +1,9 @@
-# P104 WhisperTour v1.3
+# P104 WhisperTour v1.4
 
-新增功能：
-- QRCode：導遊端加入房間後產生遊客加入用 QRCode。
-- 收聽人數：導遊端顯示目前遠端參與者人數。
-- 離開導覽按鈕。
-- 導遊靜音按鈕。
-- 掃 QRCode 後自動帶入房間碼並切換為遊客模式。
+修正 QRCode：改用 QR Server 圖片 API，不再依賴 QRCode JavaScript 套件。
+新增標題：慈濟大學經營管理學系學生專題，其中「經營管理學系」使用醒目色。
+延續 v1.3：QRCode、收聽人數、離開導覽、導遊靜音、4 位數房間碼。
 
-設定方式沿用 v1.2：
-- GitHub Pages：建立 config.js，填入 LIVEKIT_URL 與 TOKEN_FUNCTION_URL。
-- Supabase Secrets：設定 LIVEKIT_API_KEY 與 LIVEKIT_API_SECRET。
-- Edge Function 名稱：P104_livekit_token。
-- Verify JWT：OFF。
+GitHub Pages：複製 config.example.js 為 config.js，填入 LIVEKIT_URL 與 TOKEN_FUNCTION_URL。
+Supabase Edge Function：P104_livekit_token；Verify JWT：OFF。
+Secrets：LIVEKIT_API_KEY、LIVEKIT_API_SECRET。
