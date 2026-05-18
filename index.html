@@ -1,38 +1,55 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WhisperTour</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
-<script src="config.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhisperTour｜P104 Smart Tour Audio System</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+  <script src="config.js"></script>
 </head>
 <body>
-<div class="container">
-<h1>WhisperTour</h1>
-<p>P104 Smart Tour Audio System</p>
+  <main class="shell">
+    <section class="hero">
+      <div class="brand-mark">WT</div>
+      <div>
+        <h1>WhisperTour</h1>
+        <p>P104 Smart Tour Audio System</p>
+      </div>
+    </section>
 
-<label>角色</label>
-<select id="role">
-<option value="guide">我是導遊</option>
-<option value="listener">我是遊客</option>
-</select>
+    <section class="panel">
+      <div class="mode-tabs">
+        <button class="mode active" data-role="guide">我是導遊</button>
+        <button class="mode" data-role="listener">我是遊客</button>
+      </div>
 
-<label>姓名</label>
-<input id="identity" placeholder="Guide01">
+      <div class="form-grid">
+        <label>
+          顯示名稱
+          <input id="identity" type="text" placeholder="例如：Guide01 / Visitor01" />
+        </label>
 
-<label>4位數房間碼</label>
-<div class="row">
-<input id="room" maxlength="4" placeholder="1234">
-<button id="generateRoom">產生</button>
-</div>
+        <label>
+          4 位數房間碼
+          <div class="room-line">
+            <input id="room" type="text" inputmode="numeric" maxlength="4" placeholder="1234" />
+            <button id="generateRoom" type="button">產生</button>
+          </div>
+        </label>
 
-<button id="joinBtn">加入導覽</button>
+        <button id="joinBtn" class="primary" type="button">加入導覽</button>
+      </div>
 
-<div id="status">尚未連線</div>
-</div>
+      <div id="status" class="status idle">尚未連線</div>
+      <pre id="debug" class="debug"></pre>
+    </section>
 
-<script src="app.js"></script>
+    <section class="note">
+      <strong>提示：</strong>導遊端會要求麥克風權限；遊客端只收聽，不開麥克風。
+    </section>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>

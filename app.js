@@ -1,79 +1,99 @@
+let currentRole = "guide";
+let livekitRoom = null;
 
 const statusEl = document.getElementById("status");
+const debugEl = document.getElementById("debug");
 
-function generateRoomCode(){
+function setStatus(text, type="idle"){
+  statusEl.textContent = text;
+  statusEl.className = "status " + type;
+}
+
+function showDebug(obj){
+  debugEl.textContent = typeof obj === "string" ? obj : JSON.stringify(obj, null, 2);
+  debugEl.classList.add("show");
+}
+
+function roomCode(){
   return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
-document.getElementById("generateRoom").onclick = ()=>{
-  document.getElementById("room").value = generateRoomCode();
-};
+document.querySelectorAll(".mode").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".mode").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    currentRole = btn.dataset.role;
+  });
+});
 
-document.getElementById("joinBtn").onclick = async ()=>{
+document.getElementById("generateRoom").addEventListener("click", ()=>{
+  document.getElementById("room").value = roomCode();
+});
+
+document.getElementById("joinBtn").addEventListener("click", async ()=>{
   try{
+    debugEl.classList.remove("show");
 
-    if(!window.P104_CONFIG){
-      alert("請先建立 config.js，並填入 LIVEKIT_URL 與 TOKEN_FUNCTION_URL。");
+    if(!window.P104_CONFIG || !window.P104_CONFIG.LIVEKIT_URL || !window.P104_CONFIG.TOKEN_FUNCTION_URL){
+      setStatus("請先建立 config.js，並填入 LIVEKIT_URL 與 TOKEN_FUNCTION_URL。", "error");
       return;
     }
 
-    const role = document.getElementById("role").value;
-    const identity = document.getElementById("identity").value.trim();
+    const identity = document.getElementById("identity").value.trim() || (currentRole === "guide" ? "Guide" : "Visitor");
     const room = document.getElementById("room").value.trim();
 
-    statusEl.innerText = "正在取得 token...";
-
-    const res = await fetch(
-      window.P104_CONFIG.TOKEN_FUNCTION_URL,
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-          room,
-          identity,
-          role
-        })
-      }
-    );
-
-    const data = await res.json();
-
-    if(!data.token){
-      console.error(data);
-      alert("無法取得 LiveKit token");
+    if(!/^[0-9]{4}$/.test(room)){
+      setStatus("房間碼必須是 4 位數字。", "error");
       return;
     }
 
-    statusEl.innerText = "正在連線 LiveKit...";
+    setStatus("正在向 Supabase Edge Function 取得 LiveKit token...");
 
-    const roomObj = new LivekitClient.Room();
+    const res = await fetch(window.P104_CONFIG.TOKEN_FUNCTION_URL, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({
+        room,
+        identity,
+        role: currentRole
+      })
+    });
 
-    await roomObj.connect(
-      window.P104_CONFIG.LIVEKIT_URL,
-      data.token
-    );
+    const data = await res.json().catch(()=>({ error:"Response is not JSON." }));
 
-    if(role === "guide"){
-      await roomObj.localParticipant.setMicrophoneEnabled(true);
-      statusEl.innerText = "導遊模式：麥克風已啟用";
-    }else{
-      statusEl.innerText = "遊客模式：正在收聽";
+    if(!res.ok || !data.token){
+      setStatus("無法取得 LiveKit token。請查看下方錯誤細節。", "error");
+      showDebug(data);
+      return;
     }
 
-    roomObj.on(
-      LivekitClient.RoomEvent.TrackSubscribed,
-      (track)=>{
-        if(track.kind === "audio"){
-          const audio = track.attach();
-          document.body.appendChild(audio);
-        }
+    setStatus("正在連線 LiveKit...");
+
+    livekitRoom = new LivekitClient.Room({
+      adaptiveStream: true,
+      dynacast: true
+    });
+
+    livekitRoom.on(LivekitClient.RoomEvent.TrackSubscribed, (track)=>{
+      if(track.kind === "audio"){
+        const audio = track.attach();
+        audio.autoplay = true;
+        document.body.appendChild(audio);
       }
-    );
+    });
+
+    await livekitRoom.connect(window.P104_CONFIG.LIVEKIT_URL, data.token);
+
+    if(currentRole === "guide"){
+      await livekitRoom.localParticipant.setMicrophoneEnabled(true);
+      setStatus(`導遊模式已連線。房間碼：${room}。麥克風已啟用。`, "ok");
+    }else{
+      setStatus(`遊客模式已連線。房間碼：${room}。正在收聽導覽。`, "ok");
+    }
 
   }catch(err){
     console.error(err);
-    alert("發生錯誤，請查看 console");
+    setStatus("發生錯誤，請查看下方錯誤細節。", "error");
+    showDebug(err.message || String(err));
   }
-};
+});
