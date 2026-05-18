@@ -1,79 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WhisperTour｜P104 Smart Tour Audio System</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhisperTour</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+<script src="config.js"></script>
 </head>
 <body>
-  <main class="shell">
-    <section class="hero">
-      <div class="brandmark">WT</div>
-      <div>
-        <h1>WhisperTour</h1>
-        <p>P104 Smart Tour Audio System</p>
-      </div>
-    </section>
+<div class="container">
+<h1>WhisperTour</h1>
+<p>P104 Smart Tour Audio System</p>
 
-    <section id="setupCard" class="card">
-      <h2>加入導覽</h2>
-      <label>導覽房間碼</label>
-      <div class="row">
-        <input id="roomInput" value="whispertour-test" placeholder="例如 whispertour-test" />
-        <button id="randomRoomBtn" class="secondary">產生</button>
-      </div>
+<label>角色</label>
+<select id="role">
+<option value="guide">我是導遊</option>
+<option value="listener">我是遊客</option>
+</select>
 
-      <label>顯示名稱</label>
-      <input id="nameInput" placeholder="例如 guide 或 visitor1" />
+<label>姓名</label>
+<input id="identity" placeholder="Guide01">
 
-      <div class="roleGrid">
-        <button id="guideBtn" class="primary">我是導遊</button>
-        <button id="listenerBtn" class="secondary">我是遊客</button>
-      </div>
+<label>4位數房間碼</label>
+<div class="row">
+<input id="room" maxlength="4" placeholder="1234">
+<button id="generateRoom">產生</button>
+</div>
 
-      <p class="hint">導遊可開麥克風；遊客只收聽，不會要求麥克風權限。</p>
-    </section>
+<button id="joinBtn">加入導覽</button>
 
-    <section id="tourCard" class="card hidden">
-      <div class="tourTop">
-        <div>
-          <h2 id="tourTitle">導覽中</h2>
-          <p id="roleLabel" class="muted"></p>
-        </div>
-        <span id="statusBadge" class="badge">連線中</span>
-      </div>
+<div id="status">尚未連線</div>
+</div>
 
-      <div class="roomBox">
-        <span>Room</span>
-        <strong id="roomLabel"></strong>
-      </div>
-
-      <div id="guidePanel" class="panel hidden">
-        <h3>導遊控制台</h3>
-        <p>請使用耳機測試，避免回音。遊客掃描下方 QR Code 即可加入。</p>
-        <canvas id="qrCanvas"></canvas>
-        <button id="muteBtn" class="secondary">暫停麥克風</button>
-      </div>
-
-      <div id="listenerPanel" class="panel hidden">
-        <h3>正在收聽導覽</h3>
-        <p>請戴上耳機。若沒有聲音，請確認手機音量與瀏覽器播放權限。</p>
-        <button id="startAudioBtn" class="primary hidden">開始播放聲音</button>
-      </div>
-
-      <div class="stats">
-        <div><span>目前人數</span><strong id="participantCount">1</strong></div>
-        <div><span>音訊狀態</span><strong id="audioStatus">等待中</strong></div>
-      </div>
-
-      <button id="leaveBtn" class="danger">離開導覽</button>
-    </section>
-  </main>
-
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
