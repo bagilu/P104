@@ -16,13 +16,12 @@
 <section class="panel">
 <div class="mode-tabs"><button class="mode active" data-role="guide">我是導遊</button><button class="mode" data-role="listener">我是遊客</button></div>
 <div class="form-grid">
-<label>顯示名稱<input id="identity" type="text" placeholder="例如：Guide01 / Visitor01"></label>
 <label>4 位數房間碼<div class="room-line"><input id="room" type="text" inputmode="numeric" maxlength="4" placeholder="1234"><button id="generateRoom" type="button">產生</button></div></label>
 <button id="joinBtn" class="primary" type="button">加入導覽</button>
 </div>
-<div id="guideTools" class="guide-tools hidden">
-<div class="stat-card"><span>目前收聽人數</span><strong id="listenerCount">0</strong></div>
-<div class="qr-box"><div><h2>遊客掃碼加入</h2><p id="joinUrlText">尚未建立連結</p></div><img id="qrImage" alt="QRCode"></div>
+<div id="shareTools" class="guide-tools hidden">
+<div id="listenerStat" class="stat-card hidden"><span>目前收聽人數</span><strong id="listenerCount">0</strong></div>
+<div class="qr-box"><div><h2 id="qrTitle">掃描加入導覽</h2><p id="joinUrlText">尚未建立連結</p></div><img id="qrImage" alt="QRCode"></div>
 </div>
 <div id="connectedTools" class="connected-tools hidden">
 <button id="muteBtn" class="secondary" type="button">導遊靜音</button>
@@ -31,7 +30,7 @@
 <div id="status" class="status idle">尚未連線</div>
 <pre id="debug" class="debug"></pre>
 </section>
-<section class="note"><strong>提示：</strong>導遊端會要求麥克風權限；遊客端只收聽，不開麥克風。</section>
+<section class="note"><strong>提示：</strong>導遊端會要求麥克風權限；遊客端只收聽，不開麥克風。遊客加入後也會顯示相同 QRCode，方便快速分享給同行者。</section>
 </main>
 <script src="app.js"></script>
 </body>
