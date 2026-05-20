@@ -15,24 +15,14 @@
 </section>
 <section class="panel">
 <div class="mode-tabs"><button class="mode active" data-role="guide">我是導遊</button><button class="mode" data-role="listener">我是遊客</button></div>
-<div class="form-grid">
-<input id="identity" type="hidden" value="">
-<label>4 位數房間碼<div class="room-line"><input id="room" type="text" inputmode="numeric" maxlength="4" placeholder="1234"><button id="generateRoom" type="button">產生</button></div></label>
-<button id="joinBtn" class="primary" type="button">加入導覽</button>
-</div>
-<div id="shareTools" class="guide-tools hidden">
-<div id="listenerStat" class="stat-card hidden"><span>目前收聽人數</span><strong id="listenerCount">0</strong></div>
-<div class="qr-box"><div><h2 id="qrTitle">掃描加入導覽</h2><p id="joinUrlText">尚未建立連結</p></div><img id="qrImage" alt="QRCode"></div>
-</div>
-<div id="connectedTools" class="connected-tools hidden">
-<button id="muteBtn" class="secondary" type="button">導遊靜音</button>
-<button id="leaveBtn" class="danger" type="button">離開導覽</button>
-</div>
-<div id="status" class="status idle">尚未連線</div>
-<pre id="debug" class="debug"></pre>
+<div id="guideStart" class="form-grid"><button id="createQrBtn" class="primary" type="button">創建 QRCode</button><p class="hint">系統會自動建立導覽房間並顯示 QRCode。導遊與遊客都不需要知道房間碼。</p></div>
+<div id="listenerStart" class="form-grid hidden"><label>導覽代碼<div class="room-line"><input id="room" type="text" inputmode="numeric" maxlength="4" placeholder="請掃描 QRCode 或輸入代碼"><button id="joinBtn" type="button">加入</button></div></label><p class="hint">一般情況下，遊客只需掃描導遊畫面上的 QRCode，即可自動加入導覽。</p></div>
+<div id="shareTools" class="guide-tools hidden"><div id="listenerStat" class="stat-card hidden"><span>目前收聽人數</span><strong id="listenerCount">0</strong></div><div class="qr-box"><div><h2 id="qrTitle">掃描加入導覽</h2><p id="joinUrlText">尚未建立連結</p></div><img id="qrImage" alt="QRCode"></div></div>
+<div id="connectedTools" class="connected-tools hidden"><button id="muteBtn" class="secondary" type="button">導遊靜音</button><button id="retryMicBtn" class="secondary hidden" type="button">重新允許麥克風</button><button id="leaveBtn" class="danger" type="button">離開導覽</button></div>
+<div id="status" class="status idle">尚未連線</div><pre id="debug" class="debug"></pre>
 </section>
-<section class="note"><strong>提示：</strong>導遊端會要求麥克風權限；遊客端只收聽。遊客加入後也會顯示同一 QRCode，方便快速分享。</section>
+<section class="note"><strong>提示：</strong>導遊按「創建 QRCode」即可開始；遊客掃描 QRCode 會自動進入導覽。若誤按「不允許麥克風」，請按「重新允許麥克風」。</section>
 </main>
-<script src="app.js?v=1.5.1"></script>
+<script src="app.js?v=1.6"></script>
 </body>
 </html>
